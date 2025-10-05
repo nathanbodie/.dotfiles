@@ -135,3 +135,4 @@ esac
 
 export PATH="/Users/nate/.local/bin:$PATH"
 alias dropbox=/Users/nate/Library/CloudStorage/Dropbox
+export MANPAGER="nvim +Man!"
