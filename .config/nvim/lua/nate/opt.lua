@@ -8,3 +8,4 @@ vim.o.shiftwidth = 2
 vim.o.termguicolors = true
 vim.o.clipboard = "unnamedplus"
 vim.o.wrap = false
+vim.o.winborder = "rounded"
