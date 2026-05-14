@@ -1,6 +1,6 @@
-font-size = 24 
+font-size = 18
 window-padding-x = 8
 maximize = true
-font-family = "JetBrainsMonoNL Nerd Font Mono"
+font-family = "JetBrainsMono Nerd Font"
 # theme = srcery 
-theme = vague
+theme = "Vague"

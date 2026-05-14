@@ -115,7 +115,7 @@
         "orientation": "horizontal",
         "modules": [
             "idle_inhibitor",
-            "custom/wallpaper",
+            // "custom/wallpaper",
             "custom/notification",
             "custom/power-menu",
         ],
