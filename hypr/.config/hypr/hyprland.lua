@@ -112,7 +112,6 @@ hl.config({
     },
 
     dwindle = {
-        pseudotile     = true,  -- bound to mainMod + P below
         preserve_split = true,
     },
 
@@ -224,20 +223,19 @@ hl.bind(mainMod .. " + M",           hl.dsp.exit())
 hl.bind(mainMod .. " + V",           hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + R",           hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + D",           hl.dsp.exec_cmd(menu))
-hl.bind(mainMod .. " + P",           hl.dsp.pseudo())          -- dwindle pseudotile
-hl.bind(mainMod .. " + E",           hl.dsp.togglesplit())     -- dwindle
+hl.bind(mainMod .. " + E",           hl.dsp.layout("togglesplit")) -- dwindle
 
 -- Move focus (vim-style)
-hl.bind(mainMod .. " + h",  hl.dsp.movefocus({ direction = "l" }))
-hl.bind(mainMod .. " + l",  hl.dsp.movefocus({ direction = "r" }))
-hl.bind(mainMod .. " + k",  hl.dsp.movefocus({ direction = "u" }))
-hl.bind(mainMod .. " + j",  hl.dsp.movefocus({ direction = "d" }))
+hl.bind(mainMod .. " + h",  hl.dsp.focus({ direction = "left"  }))
+hl.bind(mainMod .. " + l",  hl.dsp.focus({ direction = "right" }))
+hl.bind(mainMod .. " + k",  hl.dsp.focus({ direction = "up"    }))
+hl.bind(mainMod .. " + j",  hl.dsp.focus({ direction = "down"  }))
 
 -- Move windows within workspace
-hl.bind(mainMod .. " + SHIFT + h",  hl.dsp.window.move({ direction = "l" }))
-hl.bind(mainMod .. " + SHIFT + l",  hl.dsp.window.move({ direction = "r" }))
-hl.bind(mainMod .. " + SHIFT + k",  hl.dsp.window.move({ direction = "u" }))
-hl.bind(mainMod .. " + SHIFT + j",  hl.dsp.window.move({ direction = "d" }))
+hl.bind(mainMod .. " + SHIFT + h",  hl.dsp.window.move({ direction = "left"  }))
+hl.bind(mainMod .. " + SHIFT + l",  hl.dsp.window.move({ direction = "right" }))
+hl.bind(mainMod .. " + SHIFT + k",  hl.dsp.window.move({ direction = "up"    }))
+hl.bind(mainMod .. " + SHIFT + j",  hl.dsp.window.move({ direction = "down"  }))
 
 -- Switch workspaces
 for i = 1, 9 do
@@ -254,11 +252,11 @@ hl.bind(mainMod .. " + SHIFT + period", hl.dsp.window.move({ monitor = "+1" }))
 hl.bind(mainMod .. " + SHIFT + comma",  hl.dsp.window.move({ monitor = "-1" }))
 
 -- Move current workspace to next/prev monitor
-hl.bind(mainMod .. " + CTRL + SHIFT + period", hl.dsp.workspace.move_to_monitor({ monitor = "+1" }))
-hl.bind(mainMod .. " + CTRL + SHIFT + comma",  hl.dsp.workspace.move_to_monitor({ monitor = "-1" }))
+hl.bind(mainMod .. " + CTRL + SHIFT + period", hl.dsp.workspace.move({ workspace = "current", monitor = "+1" }))
+hl.bind(mainMod .. " + CTRL + SHIFT + comma",  hl.dsp.workspace.move({ workspace = "current", monitor = "-1" }))
 
 -- Special workspace (scratchpad)
-hl.bind(mainMod .. " + S",         hl.dsp.window.move({ workspace = "special:magic", silent = true }))
+hl.bind(mainMod .. " + S", hl.dsp.workspace.toggle_special("magic"))
 
 -- Screenshots / color picker
 hl.bind(mainMod .. " + SHIFT + S", hl.dsp.exec_cmd("hyprshot -m region"))
@@ -269,8 +267,8 @@ hl.bind(mainMod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }))
 hl.bind(mainMod .. " + mouse_up",   hl.dsp.focus({ workspace = "e-1" }))
 
 -- Move/resize windows with mouse
-hl.bind(mainMod .. " + mouse:272", hl.dsp.window.move_cursor(),   { mouse = true })
-hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize_cursor(), { mouse = true })
+hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(),   { mouse = true })
+hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 
 -- Multimedia / volume keys (repeating + locked)
 hl.bind("XF86AudioRaiseVolume",  hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"),  { locked = true, repeating = true })
