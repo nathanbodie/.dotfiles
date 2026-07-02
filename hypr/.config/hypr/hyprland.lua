@@ -7,8 +7,9 @@
 --------------------
 
 -- See https://wiki.hypr.land/Configuring/Basics/Monitors/
-hl.monitor({ output = "DP-3", mode = "1920x1080@360",  position = "0x0",    scale = 1 })
-hl.monitor({ output = "DP-2", mode = "2560x1440@480",  position = "1920x0", scale = 1 })
+hl.monitor({ output = "DP-3",     mode = "1920x1080@360",  position = "0x0",    scale = 1 })
+hl.monitor({ output = "DP-2",     mode = "2560x1440@480",  position = "1920x0", scale = 1 })
+hl.monitor({ output = "HDMI-A-1", mode = "preferred",       position = "auto",   scale = 1, mirror = "DP-2" })
 
 
 ---------------------
@@ -17,11 +18,11 @@ hl.monitor({ output = "DP-2", mode = "2560x1440@480",  position = "1920x0", scal
 
 local terminal    = "ghostty"
 local fileManager = "dolphin"
-local menu        = "wofi --show drun"
-local browser     = "zen-browser"
+local menu        = "noctalia-shell ipc call launcher toggle"
+local browser     = "zen"
 local browserBin  = "zen-bin"
-local discord     = "vesktop"
-local soundcloud  = os.getenv("HOME") .. "/Applications/soundcloud-0.1.7-installer-linux.AppImage"
+local discord     = "equibop"
+-- local soundcloud  = os.getenv("HOME") .. "/Applications/soundcloud-0.1.7-installer-linux.AppImage"
 
 
 -------------------
@@ -31,11 +32,11 @@ local soundcloud  = os.getenv("HOME") .. "/Applications/soundcloud-0.1.7-install
 -- See https://wiki.hypr.land/Configuring/Basics/Autostart/
 hl.on("hyprland.start", function()
     hl.exec_cmd(terminal)
-    hl.exec_cmd("hyprpaper")
-    hl.exec_cmd("waybar")
+    hl.exec_cmd("noctalia-shell")
     hl.exec_cmd(browser)
-    hl.exec_cmd(soundcloud .. " --no-sandbox")
     hl.exec_cmd(discord)
+    hl.exec_cmd("steam")
+    hl.exec_cmd("obsidian")
     -- hl.exec_cmd("nm-applet")
 end)
 
@@ -194,7 +195,8 @@ hl.workspace_rule({ workspace = "7",  monitor = "DP-2" })
 hl.workspace_rule({ workspace = "8",  monitor = "DP-2" })
 hl.workspace_rule({ workspace = "9",  monitor = "DP-2" })
 hl.workspace_rule({ workspace = "10", monitor = "DP-2" })
-
+hl.workspace_rule({ workspace = "11", monitor = "DP-2" })
+hl.workspace_rule({ workspace = "12", monitor = "DP-2" })
 
 ---------------
 ---- INPUT ----
@@ -245,6 +247,14 @@ end
 hl.bind(mainMod .. " + 0",         hl.dsp.focus({ workspace = 10 }))
 hl.bind(mainMod .. " + SHIFT + 0", hl.dsp.window.move({ workspace = 10 }))
 
+-- Obsidian workspace
+hl.bind(mainMod .. " + o",         hl.dsp.focus({ workspace = 11 }))
+hl.bind(mainMod .. " + SHIFT + o", hl.dsp.window.move({ workspace = 11 }))
+
+-- Games workspace
+hl.bind(mainMod .. " + a",         hl.dsp.focus({ workspace = 12 }))
+hl.bind(mainMod .. " + SHIFT + a", hl.dsp.window.move({ workspace = 12 }))
+
 hl.bind(mainMod .. " + TAB", hl.dsp.focus({ workspace = "previous" }))
 
 -- Move windows between monitors (also moves the workspace)
@@ -252,8 +262,8 @@ hl.bind(mainMod .. " + SHIFT + period", hl.dsp.window.move({ monitor = "+1" }))
 hl.bind(mainMod .. " + SHIFT + comma",  hl.dsp.window.move({ monitor = "-1" }))
 
 -- Move current workspace to next/prev monitor
-hl.bind(mainMod .. " + CTRL + SHIFT + period", hl.dsp.workspace.move({ workspace = "current", monitor = "+1" }))
-hl.bind(mainMod .. " + CTRL + SHIFT + comma",  hl.dsp.workspace.move({ workspace = "current", monitor = "-1" }))
+hl.bind(mainMod .. " + CTRL + SHIFT + period", hl.dsp.workspace.move({ monitor = "+1" }))
+hl.bind(mainMod .. " + CTRL + SHIFT + comma",  hl.dsp.workspace.move({ monitor = "-1" }))
 
 -- Special workspace (scratchpad)
 hl.bind(mainMod .. " + S", hl.dsp.workspace.toggle_special("magic"))
@@ -292,10 +302,19 @@ hl.bind("XF86AudioPrev",  hl.dsp.exec_cmd("playerctl previous"),    { locked = t
 -- See https://wiki.hypr.land/Configuring/Window-Rules/
 hl.window_rule({ match = { class = "com.mitchellh.ghostty" }, workspace = "1" })
 hl.window_rule({ match = { class = "zen"                   }, workspace = "2" })
+hl.window_rule({ match = { class = "helium"                }, workspace = "2" })
 hl.window_rule({ match = { class = "spotify"               }, workspace = "3" })
 hl.window_rule({ match = { class = "soundcloud-rpc"        }, workspace = "3" })
 hl.window_rule({ match = { class = discord                 }, workspace = "4" })
 hl.window_rule({ match = { class = "steam"                 }, workspace = "6" })
+hl.window_rule({ match = { class = "heroic"                }, workspace = "6" })
+hl.window_rule({ match = { class = "lutris"                }, workspace = "6" })
+-- Games from Steam (native + Proton) always use class "steam_app_<appid>".
+-- Heroic/Lutris game windows have no shared class — add per-game rules as needed.
+hl.window_rule({ match = { class = "steam_app_.*"          }, workspace = "12" })
+hl.window_rule({ match = { class = "gamescope"             }, workspace = "12" })
+hl.window_rule({ match = { class = "Minecraft.*"           }, workspace = "12" })
+hl.window_rule({ match = { class = "obsidian"              }, workspace = "11" })
 
 -- Suppress maximize requests from apps
 hl.window_rule({ match = { class = ".*" }, suppress_event = "maximize" })
